@@ -85,6 +85,14 @@ You can use the trix editor for your translated fields by using the ```trix()```
 Translatable::make('Description')->trix(),
 ```
 
+### TinyMce Editor
+You can use the tinymce editor for your translated fields by using the ```tiny()``` option:
+
+```
+Translatable::make('Description')->tiny(),
+```
+
+
 ### Index View
 By default the locale used when displaying the field on the index view is determined by ```app()->getLocale()```. To override this you can use the ```indexLocale($locale)``` option:
 

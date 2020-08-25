@@ -33,7 +33,7 @@
                 :placeholder="field.name"
                 :disabled="isReadonly"
                 v-model="value[currentLocale]"
-                v-if="!field.singleLine && !field.trix"
+                v-if="!field.singleLine && !field.trix && !field.tiny"
                 @keydown.tab="handleTab"
             ></textarea>
 
@@ -44,6 +44,17 @@
                     :value="value[currentLocale]"
                     placeholder=""
                     @change="handleChange"
+                />
+            </div>
+
+            <div v-if="!field.singleField && field.tiny" class="mt-4">
+                <tiny
+                        ref="field"
+                        :name="field.attribute"
+                        :value="value[currentLocale]"
+                        :placeholder="field.name"
+                        :tiny_config="field.tiny_config"
+                        @change="handleChange"
                 />
             </div>
 
@@ -73,6 +84,7 @@
 <script>
 
 import Trix from '../Trix'
+import Tiny from '../Tiny'
 
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
 
@@ -81,7 +93,7 @@ export default {
 
     props: ['resourceName', 'resourceId', 'field'],
 
-    components: { Trix },
+    components: { Trix, Tiny },
 
     data() {
         return {
@@ -117,7 +129,7 @@ export default {
         changeTab(locale) {
             this.currentLocale = locale
             this.$nextTick(() => {
-                if (this.field.trix) {
+                if (this.field.trix || this.field.tiny) {
                     this.$refs.field.update()
                 } else {
                     this.$refs.field.focus()
@@ -144,8 +156,8 @@ export default {
     computed: {
         computedWidth() {
             return {
-                'w-1/2': !this.field.trix,
-                'w-4/5': this.field.trix
+                'w-1/2': !this.field.trix || !this.field.tiny,
+                'w-4/5': this.field.trix || this.field.tiny
             }
         },
 

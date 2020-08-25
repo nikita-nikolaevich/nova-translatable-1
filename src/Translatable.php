@@ -99,6 +99,32 @@ class Translatable extends Field
     }
 
     /**
+     * use tiny editor
+     * @param array $config
+     * @return mixed
+     */
+    public function tiny($config = [])
+    {
+        $this->asHtml();
+
+        return $this->withMeta(['tiny' => true, 'tiny_config' =>
+            array_merge([
+                'path_absolute' => '/',
+                'plugins' => [
+                    'lists preview hr anchor pagebreak',
+                    'wordcount fullscreen',
+                    'contextmenu directionality',
+                    'paste textcolor colorpicker textpattern'
+                ],
+                'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
+                'relative_urls' => false,
+                'use_lfm' => false,
+                'lfm_url' => 'laravel-filemanager'
+            ], $config)
+        ]);
+    }
+
+    /**
      * Display the field as raw HTML.
      */
     public function asHtml()

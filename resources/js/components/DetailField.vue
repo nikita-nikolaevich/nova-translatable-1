@@ -39,7 +39,7 @@ export default {
 
     computed: {
         value() {
-            return this.field.value[this.currentLocale] || '—'
+            return this.field.value ? (this.field.value[this.currentLocale] || '—') : '—';
         }
     },
 }
